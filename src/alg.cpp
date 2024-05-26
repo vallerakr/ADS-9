@@ -1,32 +1,33 @@
 #include  <iostream>
 #include  <fstream>
-#include  <locale>
-#include  <cstdlib>
 #include <sstream>
 #include  "bst.h"
 
 BST<std::string> makeTree(const char* filename) {
+  // поместите сюда свой код
     BST<std::string> tree;
     std::ifstream file(filename);
-if (!inputFile.is_open()) {
-    throw std::runtime_error("Ошибка при открытии файла");
-}
 
-std::string line;
-while (std::getline(inputFile, line)) {
-    std::string word;
-    for (char character : line) {
-        if (isalpha(character)) {
-            word += tolower(character);
-        } else if (!word.empty()) {
-            tree.insert(word);
-            word.clear();
+    if (!file.is_open()) {
+        throw std::runtime_error("Ошибка при открытии файла");
+    }
+
+    std::string currentLine;
+    while (std::getline(file, currentLine)) {
+        std::string currentWord;
+        for (char c : currentLine) {
+            if (isalpha(c)) {
+                currentWord += tolower(c);
+            } else if (!currentWord.empty()) {
+                tree.insert(currentWord);
+                currentWord.clear();
+            }
+        }
+        if (!currentWord.empty()) {
+            tree.insert(currentWord);
         }
     }
-    if (!word.empty()) {
-        tree.insert(word);
-    }
-}
 
-inputFile.close();
-return tree;
+    file.close();
+    return tree;
+}
