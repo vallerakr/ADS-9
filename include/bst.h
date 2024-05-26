@@ -71,7 +71,7 @@ class BST {
         root = add(root, value);
     }
 
-    int depthTree() const {
+    int depth() const {
         return DelTree(root) - 1;
     }
 
