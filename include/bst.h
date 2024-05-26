@@ -67,7 +67,7 @@ class BST {
  public:
     BST() : root(nullptr) {}
 
-    void insertTree(const T& value) {
+    void insert(const T& value) {
         root = add(root, value);
     }
 
