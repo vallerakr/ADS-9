@@ -77,7 +77,7 @@ class BST {
         return DelTree(root) - 1;
     }
 
-    int searchtree(const T& value) const {
+    int search(const T& value) const {
         return TreeSearch(root, value);
     }
 };
