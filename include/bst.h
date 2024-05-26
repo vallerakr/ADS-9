@@ -3,8 +3,6 @@
 #define INCLUDE_BST_H_
 #include  <iostream>
 #include <algorithm>
-#include  <iostream>
-#include <algorithm>
 template <typename T>
 class BST {
  private:
