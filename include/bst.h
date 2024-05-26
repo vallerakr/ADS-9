@@ -3,67 +3,82 @@
 #define INCLUDE_BST_H_
 #include  <iostream>
 #include <algorithm>
-template <typename U>
+#include  <iostream>
+#include <algorithm>
+template <typename T>
 class BST {
  private:
     struct Node {
-        U data;
+        T data;
         int count;
         Node* left;
         Node* right;
-        explicit Node(const U& v) : data(v), count(1), left(nullptr), right(nullptr) {}
+        explicit Node(T v) : data(v), count(1), left(nullptr), right(nullptr) {}
     };
     Node* root;
 
-    Node* add(Node* node, const U& value) {
+    Node* add(Node* node, const T& value) {
         if (node == nullptr) {
             return new Node(value);
         }
 
-        if (node->data > value) {
-            node->left = add(node->left, value);
-        } else if (node->data < value) {
-            node->right = add(node->right, value);
+        Node* cur = node;
+        Node* par = nullptr;
+
+        while (cur != nullptr) {
+            par = cur;
+            if (cur->data > value) {
+                cur = cur->left;
+            } else if (cur->data < value) {
+                cur = cur->right;
+            } else {
+                cur->count++;
+                return node;
+            }
+        }
+
+        if (par->data > value) {
+            par->left = new Node(value);
         } else {
-            node->count++;
+            par->right = new Node(value);
         }
 
         return node;
     }
 
-    int delTree(Node* node) const {
+    int DelTree(Node* node) const {
         if (node == nullptr) {
             return 0;
         }
-        return 1 + std::max(delTree(node->left), delTree(node->right));
+        return 1 + std::max(DelTree(node->left), DelTree(node->right));
     }
 
-    int findCounter(Node* node, const U& value) const {
-        if (node == nullptr) {
-            return 0;
+    int TreeSearch(Node* node, const T& value) const {
+        while (node != nullptr) {
+            if (node->data == value) {
+                return node->count;
+            } else if (node->data < value) {
+                node = node->right;
+            } else {
+                node = node->left;
+            }
         }
-        if (node->data == value) {
-            return node->count;
-        } else if (node->data < value) {
-            return findCounter(node->right, value);
-        } else {
-            return findCounter(node->left, value);
-        }
+        return 0;
     }
 
  public:
     BST() : root(nullptr) {}
 
-    void insert(const U& value) {
+    void insertTree(const T& value) {
         root = add(root, value);
     }
 
-    int depth() const {
-        return delTree(root) - 1;
+    int depthTree() const {
+        return DelTree(root) - 1;
     }
 
-    int search(const U& value) const {
-        return findCounter(root, value);
+    int searchtree(const T& value) const {
+        return TreeSearch(root, value);
     }
 };
 #endif  // INCLUDE_BST_H_
